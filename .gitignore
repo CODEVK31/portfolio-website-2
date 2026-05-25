@@ -1,5 +1,7 @@
-uploads/
 node_modules/
+dist/
+uploads/*
+!uploads/Vinayak_Khandelwal_A_Resume.pdf
 .DS_Store
 Thumbs.db
 *.log

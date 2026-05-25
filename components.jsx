@@ -121,7 +121,8 @@ function WorkflowNode({ node, isActive, isExecuting, bootDelay, onClick }) {
         '--accent': accent,
         '--boot-delay': bootDelay + 'ms',
       }}
-      aria-label={`Open node ${node.label}`}
+      aria-label={`Open node: ${node.label}. ${node.sublabel}`}
+      aria-pressed={isActive ? 'true' : 'false'}
     >
       <span className="wf-node__stripe" />
       <span className="wf-node__body">
@@ -162,7 +163,8 @@ function CategoryNode({ node, accent, isActive, isExecuting, bootDelay, onClick 
         '--accent': accent,
         '--boot-delay': bootDelay + 'ms',
       }}
-      aria-label={`Open category ${node.label}`}
+      aria-label={`Open category: ${node.label}. ${node.sublabel}`}
+      aria-pressed={isActive ? 'true' : 'false'}
     >
       <span className="wf-cat__top" />
       <span className="wf-cat__body">
@@ -324,7 +326,9 @@ function HeadlineCard() {
         <em>do the boring work.</em>
       </h1>
       <p className="headline__proof">
-        <span className="headline__proof-dot" style={{ '--c': '#FF6D5A' }} />8 projects built
+        <span className="headline__proof-dot" style={{ '--c': '#FF6D5A' }} />8 shipped
+        <span className="headline__proof-sep">·</span>
+        <span className="headline__proof-dot" style={{ '--c': '#00C896' }} />1 live in production
         <span className="headline__proof-sep">·</span>
         <span className="headline__proof-dot" style={{ '--c': '#F5B544' }} />World Rank #4 ASME
       </p>
@@ -351,16 +355,15 @@ function PlainEnglish({ onClose }) {
         <div className="plain__eyebrow">the 30-second read</div>
         <h2 className="plain__h">Hi, I'm Vinayak.</h2>
         <p className="plain__p">
-          I'm a final-year B.Tech student at Shiv Nadar University. I build
-          software that does the boring work for businesses — sending reports,
-          chasing missing documents, summarising email — so people don't have
-          to do it by hand.
+          Final-year B.Tech at Shiv Nadar University. I build software that
+          quietly does the boring work for businesses: sending reports, chasing
+          missing documents, summarising email. So people don't have to.
         </p>
         <div className="plain__three">
           <div className="plain__row">
             <span className="plain__row-tag">1</span>
             <div>
-              <strong>Pitch Deck Intake</strong> — reads investor PDFs that
+              <strong>Pitch Deck Intake.</strong> Reads investor PDFs that
               arrive in a founder's inbox and pulls the key information into a
               spreadsheet. Saves about <em>four hours a week</em>.
             </div>
@@ -368,7 +371,7 @@ function PlainEnglish({ onClose }) {
           <div className="plain__row">
             <span className="plain__row-tag">2</span>
             <div>
-              <strong>Credflow Document Agent</strong> — chases borrowers for
+              <strong>Credflow Document Agent.</strong> Chases borrowers for
               missing loan documents and pings the relationship team if things
               stall. Currently <em>running in production at a fintech</em>.
             </div>
@@ -376,7 +379,7 @@ function PlainEnglish({ onClose }) {
           <div className="plain__row">
             <span className="plain__row-tag">3</span>
             <div>
-              <strong>FitMe</strong> — a Chrome extension that lets you try on
+              <strong>FitMe.</strong> A Chrome extension that lets you try on
               clothes from Zara or Amazon using AI. Built solo.
             </div>
           </div>
@@ -409,7 +412,11 @@ window.PlainEnglish = PlainEnglish;
 function Canvas({ activeNodeId, executingNodeId, onNodeClick, bootPhase, bootKey, idleFlow }) {
   const wrapRef = useRef(null);
   const [tx, setTx] = useState({ x: 0, y: 0, s: 0.66 });
+  const [isIdle, setIsIdle] = useState(false);
   const drag = useRef(null);
+  const glowRaf = useRef(0);
+  const glowCoords = useRef({ x: -300, y: -300 });
+  const idleTimer = useRef(null);
 
   // Broadcast tx + viewport so Minimap can draw a viewport rect.
   useEffect(() => {
@@ -484,13 +491,26 @@ function Canvas({ activeNodeId, executingNodeId, onNodeClick, bootPhase, bootKey
     wrapRef.current.setPointerCapture(e.pointerId);
   };
   const onPointerMove = (e) => {
-    // Cursor-glow position (always update)
+    // Cursor-glow position — throttled to rAF
     const wrap = wrapRef.current;
     if (wrap) {
       const r = wrap.getBoundingClientRect();
-      wrap.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      wrap.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      glowCoords.current = { x: e.clientX - r.left, y: e.clientY - r.top };
+      if (!glowRaf.current) {
+        glowRaf.current = requestAnimationFrame(() => {
+          glowRaf.current = 0;
+          const w = wrapRef.current;
+          if (!w) return;
+          w.style.setProperty('--mx', glowCoords.current.x + 'px');
+          w.style.setProperty('--my', glowCoords.current.y + 'px');
+        });
+      }
     }
+    // Idle-fade reset
+    if (isIdle) setIsIdle(false);
+    clearTimeout(idleTimer.current);
+    idleTimer.current = setTimeout(() => setIsIdle(true), 30000);
+
     if (!drag.current) return;
     setTx(p => ({ ...p, x: drag.current.tx0 + (e.clientX - drag.current.x0), y: drag.current.ty0 + (e.clientY - drag.current.y0) }));
   };
@@ -524,6 +544,9 @@ function Canvas({ activeNodeId, executingNodeId, onNodeClick, bootPhase, bootKey
       className="canvas"
       data-boot={bootPhase}
       data-boot-key={bootKey}
+      data-idle={isIdle ? 'true' : 'false'}
+      role="region"
+      aria-label="Workflow canvas. Click any node to open it. Press slash or Cmd-K to search."
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -538,8 +561,16 @@ function Canvas({ activeNodeId, executingNodeId, onNodeClick, bootPhase, bootKey
       {/* Cursor-following soft glow */}
       <div className="canvas__glow" />
 
-      {/* Headline card — replaces the old LiveLog */}
+      {/* Screen-reader landmark heading */}
+      <h1 className="sr-only">Vinayak Khandelwal portfolio. Interactive n8n workflow canvas.</h1>
+
+      {/* Headline card */}
       <HeadlineCard />
+
+      {/* Always-visible sticky note pinned to the canvas (never lost in negative space) */}
+      <aside className="canvas__concept" data-no-pan aria-hidden="true">
+        this whole site is one n8n workflow :)
+      </aside>
 
       {/* Transformed world */}
       <div className="canvas__world" style={{ transform: `translate(${tx.x}px, ${tx.y}px) scale(${tx.s})` }}>
@@ -585,11 +616,12 @@ function Canvas({ activeNodeId, executingNodeId, onNodeClick, bootPhase, bootKey
             );
           })}
 
-          {/* Sticky notes */}
-          <StickyNote x={-260} y={650} rotate={-3} color="yellow">this whole site is one n8n workflow :)</StickyNote>
-          <StickyNote x={-220} y={ 110} rotate={ 2} color="coral">vk408@snu.edu.in</StickyNote>
+          {/* Sticky notes (kept in world; the always-visible note is mounted outside the world transform) */}
+          <StickyNote x={-220} y={ 110} rotate={ 2} color="coral">
+            <a href="mailto:vk408@snu.edu.in" style={{ color: 'inherit', textDecoration: 'underline', pointerEvents: 'auto' }}>vk408@snu.edu.in</a>
+          </StickyNote>
           <StickyNote x={-220} y={280} rotate={-1} color="mint">Delhi NCR · open to internships + freelance</StickyNote>
-          <StickyNote x={1380} y={820} rotate={-2} color="violet">the FitMe try-on photo was never worn — AI made it</StickyNote>
+          <StickyNote x={1380} y={820} rotate={-2} color="violet">the FitMe try-on photo was never worn. AI made it</StickyNote>
         </div>
       </div>
 
@@ -630,7 +662,7 @@ function Toolbar({ onExecute, onBoot, onOpenSearch, onOpenPlain, isExecuting }) 
           </div>
           <div className="toolbar__status">
             <span className="pulse-dot" />
-            <span className="toolbar__active">open to work · delhi NCR</span>
+            <span className="toolbar__active">open to work · 1 live in production</span>
           </div>
         </div>
       </div>
@@ -645,7 +677,7 @@ function Toolbar({ onExecute, onBoot, onOpenSearch, onOpenPlain, isExecuting }) 
       <span className="toolbar__spacer" />
 
       <div className="toolbar__right">
-        <button type="button" onClick={onOpenPlain} className="btn btn--ghost btn--plain" title="The 30-second version — no jargon">
+        <button type="button" onClick={onOpenPlain} className="btn btn--ghost btn--plain" title="The 30-second version, no jargon">
           <Icon name="play" size={11} />
           <span>30-sec read</span>
         </button>
@@ -662,15 +694,15 @@ function Toolbar({ onExecute, onBoot, onOpenSearch, onOpenPlain, isExecuting }) 
 
         <span className="toolbar__sep toolbar__sep--sm" aria-hidden />
 
-        <button type="button" onClick={onExecute} disabled={isExecuting} className="btn btn--ghost">
-          <Icon name="play" size={12} />
-          <span>{isExecuting ? 'Touring…' : 'Tour the workflow'}</span>
-        </button>
-
-        <a href="mailto:vk408@snu.edu.in" className="btn btn--coral">
-          <Icon name="mail" size={13} />
-          <span>Get in touch</span>
+        <a href="mailto:vk408@snu.edu.in" className="btn btn--ghost btn--mail-ghost" title="Email Vinayak">
+          <Icon name="mail" size={12} />
+          <span>Email</span>
         </a>
+
+        <button type="button" onClick={onExecute} disabled={isExecuting} className="btn btn--coral btn--tour">
+          <Icon name="play" size={12} />
+          <span>{isExecuting ? 'Touring…' : 'Take the tour'}</span>
+        </button>
       </div>
     </header>
   );
@@ -687,8 +719,7 @@ function StatusBar({ activeNodeLabel }) {
         {activeNodeLabel && <span className="statusbar__item statusbar__item--accent">▸ {activeNodeLabel}</span>}
       </div>
       <div className="statusbar__group">
-        <span>Delhi NCR, India</span>
-        <a href="mailto:vk408@snu.edu.in" className="statusbar__muted">vk408@snu.edu.in</a>
+        <span>v0.3 · 17 nodes</span>
         <a href="https://www.linkedin.com/in/vinayak-khandelwal-840964200" target="_blank" rel="noopener noreferrer">linkedin</a>
         <a href="https://github.com/CODEVK31" target="_blank" rel="noopener noreferrer">github</a>
       </div>
@@ -804,6 +835,8 @@ window.Minimap = Minimap;
 
 /* ── Node Modal — centered, n8n-step-inspired layout ───────────────────── */
 function NodePanel({ node, onClose, onNavigate }) {
+  const modalRef = useRef(null);
+  const lastFocus = useRef(null);
   if (!node) return null;
   const accent = accentForKind[node.kind] ?? '#8B93A8';
 
@@ -820,9 +853,6 @@ function NodePanel({ node, onClose, onNavigate }) {
   let children = [];
   if (isHub) {
     if (node.id === 'branch') {
-      // Branch is a 2-way fork — surface all downstream paths so visitors
-      // can jump directly to Skills, Experience, PORs, or any category
-      // without walking the linear tour first.
       const downstream = ['about', 'skills', 'experience', 'pors',
                           'projects', 'n8n_cat', 'data_cat', 'claude_cat'];
       children = downstream.map(id => WORKFLOW.nodes.find(n => n.id === id)).filter(Boolean);
@@ -834,15 +864,36 @@ function NodePanel({ node, onClose, onNavigate }) {
     }
   }
 
-  // Keyboard: Esc / ← / →
+  // Keyboard: Esc / ← / → + focus trap
   useEffect(() => {
+    lastFocus.current = document.activeElement;
+    const root = modalRef.current;
+    const getFocusables = () => root
+      ? Array.from(root.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])'))
+          .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null)
+      : [];
+    // Initial focus on close button so Esc/Tab is reachable
+    const first = getFocusables()[0];
+    if (first) first.focus();
     const onKey = (e) => {
-      if (e.key === 'Escape') { onClose(); }
-      else if (e.key === 'ArrowLeft'  && prev) { onNavigate(prev.id); }
-      else if (e.key === 'ArrowRight' && next) { onNavigate(next.id); }
+      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'ArrowLeft'  && prev) { onNavigate(prev.id); return; }
+      if (e.key === 'ArrowRight' && next) { onNavigate(next.id); return; }
+      if (e.key === 'Tab') {
+        const f = getFocusables();
+        if (!f.length) return;
+        const i = f.indexOf(document.activeElement);
+        if (e.shiftKey && (i <= 0)) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && (i === f.length - 1)) { e.preventDefault(); f[0].focus(); }
+      }
     };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      if (lastFocus.current && typeof lastFocus.current.focus === 'function') {
+        lastFocus.current.focus();
+      }
+    };
   }, [prev, next, onClose, onNavigate]);
 
   const statusColor = ({
@@ -897,7 +948,7 @@ function NodePanel({ node, onClose, onNavigate }) {
           <div className="modal__side modal__side--next modal__side--empty" aria-label="end of tour">□</div>
         )}
 
-      <div className="modal" role="dialog" aria-modal="true">
+      <div ref={modalRef} className="modal" role="dialog" aria-modal="true" aria-labelledby={`modal-title-${node.id}`} data-id={node.id}>
         {/* Modal HEADER */}
         <header className="modal__head" style={{ '--accent': accent }}>
           <div className="modal__head-stripe" />
@@ -916,8 +967,8 @@ function NodePanel({ node, onClose, onNavigate }) {
                 </span>
                 {p.intro && <span className="modal__intro-chip">{p.intro}</span>}
               </div>
-              <h2 className="modal__title">{node.label}</h2>
-              <div className="modal__sublabel">id · {node.id} · {node.sublabel}</div>
+              <h2 id={`modal-title-${node.id}`} className="modal__title">{node.label}</h2>
+              <div className="modal__sublabel">{node.sublabel}</div>
             </div>
 
             {/* Header CTAs — use the free space on the right */}
@@ -1167,7 +1218,7 @@ function CommandPalette({ isOpen, onClose, onSelect }) {
             className="cmdk__input"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Jump to any node — search by name, summary…"
+            placeholder="Jump to any node. Search by name, summary…"
           />
           <kbd className="cmdk__esc">esc</kbd>
         </div>
@@ -1441,7 +1492,7 @@ function MobileLayout() {
         </div>
         <div className="mobile__filename">vinayak.portfolio.json · open to work</div>
         <h1 className="mobile__name">Vinayak Khandelwal</h1>
-        <div className="mobile__role">Builder · Analyst · Workflow Designer</div>
+        <div className="mobile__role">Final-year B.Tech · I ship AI workflows</div>
         <p className="mobile__lede">{branch?.panel?.summary}</p>
         <div className="mobile__cta-row">
           <a className="mobile__cta mobile__cta--coral" href="mailto:vk408@snu.edu.in">
@@ -1453,8 +1504,38 @@ function MobileLayout() {
         </div>
       </section>
 
+      {/* Mobile workflow rail — preserves the n8n metaphor on small screens */}
+      <section className="mobile__section">
+        <div className="mobile__section-label">the workflow</div>
+        <h2 className="mobile__h">Pick a path</h2>
+        <nav className="mobile-rail" aria-label="Workflow shortcuts">
+          {[
+            WORKFLOW.nodes.find(n => n.id === 'about'),
+            WORKFLOW.nodes.find(n => n.id === 'experience'),
+            WORKFLOW.nodes.find(n => n.id === 'n8n_cat'),
+            WORKFLOW.nodes.find(n => n.id === 'data_cat'),
+            WORKFLOW.nodes.find(n => n.id === 'claude_cat'),
+            WORKFLOW.nodes.find(n => n.id === 'contact'),
+          ].filter(Boolean).map(n => {
+            const acc = accentForKind[n.kind] ?? '#8B93A8';
+            return (
+              <a key={n.id} className="mobile-rail__item" href={'#' + n.id}
+                 style={{ '--accent': acc }}
+                 onClick={(e) => {
+                   e.preventDefault();
+                   const el = document.getElementById('mobile-' + n.id);
+                   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 }}>
+                <div className="mobile-rail__title">{n.label}</div>
+                <div className="mobile-rail__sub">{n.sublabel}</div>
+              </a>
+            );
+          })}
+        </nav>
+      </section>
+
       {about && (
-        <section className="mobile__section">
+        <section id="mobile-about" className="mobile__section">
           <div className="mobile__section-label">About</div>
           <h2 className="mobile__h">{about.label}</h2>
           <p className="mobile__p">{about.panel.summary}</p>
@@ -1482,7 +1563,7 @@ function MobileLayout() {
       )}
 
       {experience && experience.panel.timeline && (
-        <section className="mobile__section">
+        <section id="mobile-experience" className="mobile__section">
           <div className="mobile__section-label">Experience</div>
           <h2 className="mobile__h">{experience.label}</h2>
           {experience.panel.timeline.map((t, i) => (
@@ -1510,7 +1591,7 @@ function MobileLayout() {
       )}
 
       {cats.map(({ node, projects }) => node && (
-        <section key={node.id} className="mobile__section">
+        <section key={node.id} id={'mobile-' + node.id} className="mobile__section">
           <div className="mobile__section-label">{node.label}</div>
           <h2 className="mobile__h">{node.panel.summary?.split('.')[0] + '.'}</h2>
           {projects.map(p => <MobileCard key={p.id} node={p} />)}
@@ -1518,7 +1599,7 @@ function MobileLayout() {
       ))}
 
       {contact && (
-        <section className="mobile__section">
+        <section id="mobile-contact" className="mobile__section">
           <div className="mobile__section-label">Contact</div>
           <h2 className="mobile__h">Get in touch</h2>
           <p className="mobile__p">{contact.panel.summary}</p>
@@ -1546,6 +1627,16 @@ function MobileLayout() {
           <a href="https://github.com/CODEVK31" target="_blank" rel="noopener noreferrer">github</a>
         </div>
       </footer>
+
+      {/* Sticky bottom CTA bar */}
+      <div className="mobile-stick">
+        <a className="pill pill--coral" href="mailto:vk408@snu.edu.in">
+          <Icon name="mail" size={12} /> Email Vinayak
+        </a>
+        <a className="pill pill--ghost" href="uploads/Vinayak_Khandelwal_A_Resume.pdf" target="_blank" rel="noopener noreferrer">
+          <Icon name="resume" size={12} /> Resume
+        </a>
+      </div>
     </div>
   );
 }

@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Vinayak Khandelwal — Builder · Analyst · Workflow Designer</title>
+  <title>Vinayak Khandelwal — AI Workflow Builder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Portfolio of Vinayak Khandelwal — B.Tech student at Shiv Nadar University. Builds AI automations in n8n, designs data workflows, and analyses data for messy real-world problems." />
+  <meta name="description" content="Final-year B.Tech building AI workflows in n8n. 8 projects shipped, 1 live in production at a fintech, World Rank #4 ASME EFest XR." />
   <meta name="theme-color" content="#0E1119" />
 
   <meta property="og:type" content="profile" />
-  <meta property="og:title" content="Vinayak Khandelwal — Portfolio" />
-  <meta property="og:description" content="Builder · Analyst · Workflow Designer. Eight production workflows shipped. World Rank #4, ASME EFest XR Challenge." />
+  <meta property="og:title" content="Vinayak Khandelwal — AI Workflow Builder" />
+  <meta property="og:description" content="Final-year B.Tech building AI workflows in n8n. 8 shipped, 1 live in production, World Rank #4 ASME EFest XR. The whole site is one n8n workflow." />
   <meta property="og:locale" content="en_IN" />
+  <meta property="og:image" content="/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Vinayak Khandelwal — Portfolio" />
-  <meta name="twitter:description" content="Builder · Analyst · Workflow Designer." />
+  <meta name="twitter:title" content="Vinayak Khandelwal — AI Workflow Builder" />
+  <meta name="twitter:description" content="Final-year B.Tech building AI workflows in n8n. 8 shipped, 1 live in production." />
+  <meta name="twitter:image" content="/og.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +30,7 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Vinayak Khandelwal",
-    "jobTitle": "Builder · Analyst · Workflow Designer",
+    "jobTitle": "AI Workflow Builder",
     "email": "mailto:vk408@snu.edu.in",
     "telephone": "+91-8279409254",
     "url": "https://github.com/CODEVK31",
@@ -54,10 +58,6 @@
     ]
   }
   </script>
-
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
 <body>
   <div id="root">
@@ -71,7 +71,7 @@
         </svg>
       </div>
       <div class="boot-skeleton__name">Vinayak Khandelwal</div>
-      <div class="boot-skeleton__role">Builder · Analyst · Workflow Designer</div>
+      <div class="boot-skeleton__role">AI Workflow Builder</div>
       <div class="boot-skeleton__status">
         <span class="boot-skeleton__dot"></span>
         <span>Loading workflow…</span>
@@ -79,10 +79,6 @@
     </div>
   </div>
 
-  <!-- Data first, then components, then app -->
-  <script type="text/babel" src="workflow-data.jsx"></script>
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
-  <script type="text/babel" src="components.jsx"></script>
-  <script type="text/babel" src="app.jsx"></script>
+  <script defer src="app.js"></script>
 </body>
 </html>

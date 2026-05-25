@@ -17,6 +17,20 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 const IS_FAST_MODE = typeof window !== 'undefined' &&
   new URLSearchParams(window.location.search).get('fast') === '1';
 
+/* Repeat-visit fast path: if a visitor has seen the boot in the last 24h, skip it. */
+const BOOT_SEEN_KEY = 'vk_boot_seen_at';
+const SHOULD_SKIP_BOOT = (() => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const ts = parseInt(window.sessionStorage.getItem(BOOT_SEEN_KEY) || '0', 10);
+    if (!ts) {
+      const dayTs = parseInt(window.localStorage.getItem(BOOT_SEEN_KEY) || '0', 10);
+      return dayTs && (Date.now() - dayTs) < 24 * 60 * 60 * 1000;
+    }
+    return true;
+  } catch { return false; }
+})();
+
 /* Read a node id from the URL hash, if any. */
 function readNodeFromHash() {
   const m = window.location.hash.match(/#node=([a-z0-9_-]+)/i);
@@ -52,8 +66,8 @@ function DesktopApp() {
     setExecutingNodeId(null);
     setBootKey(k => k + 1);
 
-    // Fast mode — skip the 1.95s scan/edges/pulse choreography.
-    if (IS_FAST_MODE && !opts.force) {
+    // Fast mode or repeat-visit fast path — skip the 1.95s scan/edges/pulse choreography.
+    if ((IS_FAST_MODE || SHOULD_SKIP_BOOT) && !opts.force) {
       setBootPhase('done');
       const hashNode = readNodeFromHash();
       if (hashNode) setActiveNodeId(hashNode);
@@ -66,6 +80,11 @@ function DesktopApp() {
     push(() => setBootPhase('pulse'),  1650);
     push(() => {
       setBootPhase('done');
+      try {
+        const now = String(Date.now());
+        window.sessionStorage.setItem(BOOT_SEEN_KEY, now);
+        window.localStorage.setItem(BOOT_SEEN_KEY, now);
+      } catch {}
       const hashNode = readNodeFromHash();
       if (hashNode) {
         setActiveNodeId(hashNode);

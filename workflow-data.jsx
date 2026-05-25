@@ -52,7 +52,7 @@ window.WORKFLOW = {
         type: 'OBJECT', status: 'ACTIVE',
         intro: 'PORTFOLIO · ENTRY',
         summary:
-          "B.Tech student at Shiv Nadar University (Economics minor) who builds AI automations, designs workflows in n8n, and analyses data for messy real-world problems. Two paths from here: the top branch walks through who I am; the bottom branch shows the machines I built. Pick one, or hit ⌘K to jump anywhere.",
+          "Final-year B.Tech at Shiv Nadar University (Economics minor). I build AI automations, design workflows in n8n, and analyse data for messy real-world problems. Two paths from here: the top branch walks through who I am; the bottom branch shows the machines I built. Pick one, or hit ⌘K to jump anywhere.",
         meta: {
           'NAME':     'Vinayak Khandelwal',
           'ROLE':     'Builder · Analyst · Workflow Designer',
@@ -63,7 +63,7 @@ window.WORKFLOW = {
         },
         highlights: [
           'Eight production workflows shipped in the last year',
-          'World Rank #4 — ASME EFest XR Challenge',
+          'World Rank #4 at the ASME EFest XR Challenge',
           'Currently learning: advanced n8n patterns, Claude tool-use, DAX',
         ],
       } },
@@ -108,11 +108,11 @@ window.WORKFLOW = {
         type: 'OBJECT', status: 'IDLE',
         intro: 'WORK',
         summary:
-          'Two roles. The intern role was where I learned data work actually changes outcomes — a Power BI dashboard I built moved a director\'s sales focus from "everything" to one narrow filter pair, and the next month\'s revenue moved.',
+          'Two roles. The intern role was where I learned data work actually changes outcomes. A Power BI dashboard I built moved a director\'s sales focus from "everything" to one narrow filter pair, and the next month\'s revenue moved.',
         timeline: [
           { period: 'Summer 2025', role: 'Data Analyst Intern', org: 'Credflow',
             note: 'Built the document-tracking agent currently running in production. Surfaced a 22% revenue gap in a Power BI sales audit that became a quarterly review item.' },
-          { period: '2024 – now', role: 'Builder · Independent', org: 'Self-directed',
+          { period: '2024 to now', role: 'Builder · Independent', org: 'Self-directed',
             note: 'Eight shipped workflows for personal use and pilots. One live client storefront. One AI-powered Chrome extension.' },
         ],
       } },
@@ -123,12 +123,12 @@ window.WORKFLOW = {
         type: 'ARRAY', status: 'IDLE',
         intro: 'POR',
         summary:
-          'Four roles, one rule: ship the thing without drama. The robotics one is the proudest — World Rank #4 in the ASME EFest XR Challenge with an autonomous vehicle that ran the course in under 15 seconds.',
+          'Four roles, one rule: ship the thing without drama. The robotics one is the proudest. World Rank #4 in the ASME EFest XR Challenge with an autonomous vehicle that ran the course in under 15 seconds.',
         timeline: [
           { period: '2024', role: 'ASME EFest XR Challenge', org: 'Robotics', note: 'World Rank #4 · autonomous vehicle · sub-15s lap' },
-          { period: '2023 – 24', role: 'Tech Lead', org: 'SNU Robotics' },
+          { period: '2023 to 2024', role: 'Tech Lead', org: 'SNU Robotics' },
           { period: '2023', role: 'Editor', org: 'The Express · student paper' },
-          { period: '2022 – 23', role: 'Class Representative', org: 'B.Tech batch' },
+          { period: '2022 to 2023', role: 'Class Representative', org: 'B.Tech batch' },
         ],
       } },
 
@@ -139,7 +139,7 @@ window.WORKFLOW = {
         type: 'ARRAY', status: 'IDLE',
         intro: 'PROJECTS',
         summary:
-          'Eight machines I built — split across three tracks. Each track has its own accent color in the graph: coral for n8n automations, amber for data analysis, violet for Claude Code.',
+          'Eight machines I built, split across three tracks. Each track has its own accent color in the graph: coral for n8n automations, amber for data analysis, violet for Claude Code.',
         meta: {
           'TOTAL':  '8 builds across 3 categories',
           'TRACKS': 'n8n Workflows · Data Analyst · Claude Code',
@@ -154,17 +154,17 @@ window.WORKFLOW = {
         type: 'CATEGORY', status: 'ACTIVE',
         intro: 'TRACK',
         summary:
-          'Four production n8n workflows — all delivered for real users or running for me daily. Each one closes the full loop: ingest, process, decide, output.',
+          'Four production n8n workflows, all delivered for real users or running for me daily. Each one closes the full loop: ingest, process, decide, output.',
         meta: {
           'COUNT':     '4 workflows',
           'AVG RUN':   'under 2 minutes end-to-end',
           'STACK':     'n8n · Google APIs · Groq · Anthropic Claude · Telegram',
         },
         highlights: [
-          'Pitch Deck Intake — Claude extracts 20+ data points per deck',
-          'Startup Outreach — daily founder discovery + cold email',
-          'Credflow Document Agent — three-path production workflow',
-          'Gmail PDF Summarizer — Telegram-piped daily digest',
+          'Pitch Deck Intake: Claude extracts 20+ data points per deck',
+          'Startup Outreach: daily founder discovery + cold email',
+          'Credflow Document Agent: three-path production workflow',
+          'Gmail PDF Summarizer: Telegram-piped daily digest',
         ],
       } },
 
@@ -184,7 +184,7 @@ window.WORKFLOW = {
         highlights: [
           'Polls Gmail with a 60s schedule trigger',
           'Claude prompt tuned across 40+ real decks',
-          'Graceful fallback if PDF parsing fails — never drops an email',
+          'Graceful fallback if PDF parsing fails. Never drops an email',
         ],
         impact: 'Replaced ~4 hours/week of manual triage. Runs while I sleep.',
         cta: { label: 'Watch demo', url: 'https://drive.google.com/file/d/1_Qb6eBdSv87g09EOgeS-CzKde4WyWNB3/view?usp=drive_link' },
@@ -196,16 +196,16 @@ window.WORKFLOW = {
         type: 'WORKFLOW', status: 'ACTIVE',
         intro: 'BUILD',
         summary:
-          'Daily 9am IST: discovers fresh startups, enriches each founder via Groq (LinkedIn snippet, company stage, recent news), drafts a personalised cold email, queues it for review. Cap of 5 per run — quality over volume.',
+          'Daily 9am IST: discovers fresh startups, enriches each founder via Groq (LinkedIn snippet, company stage, recent news), drafts a personalised cold email, queues it for review. Cap of 5 per run. Quality over volume.',
         meta: {
           'CADENCE':     'daily 9 AM IST',
           'CAP':         '5 founders / run',
           'ITERATIONS':  '9 before it clicked',
         },
         highlights: [
-          'Groq enrichment is 10× faster than alternatives — under 600ms',
+          'Groq enrichment is 10× faster than alternatives (under 600ms)',
           'Personalisation pulls on a founder-specific signal, not a template',
-          'Review queue keeps a human in the loop — no autopilot sends',
+          'Review queue keeps a human in the loop. No autopilot sends',
         ],
         impact: 'Reply rate 4× higher than the templated version it replaced.',
         cta: { label: 'Watch demo', url: 'https://drive.google.com/file/d/1QVV5uPk_9rOZU2fOzD-fRoPhXYPPogso/view?usp=drive_link' },
@@ -224,9 +224,9 @@ window.WORKFLOW = {
           'TRIGGERS':    'Airtable · Schedule · 3 variants',
         },
         highlights: [
-          'Loan-type-aware checklist generation — no two loans have the same docs',
+          'Loan-type-aware checklist generation. No two loans have the same docs',
           'Three independent paths share one Airtable as ground truth',
-          'Telegram daily digest reads like a stand-up — not a log dump',
+          'Telegram daily digest reads like a stand-up, not a log dump',
         ],
         impact: 'Cut document-chase time from days to hours. Used in production by the relationship team.',
         cta: { label: 'Watch demo', url: 'https://drive.google.com/file/d/126ibzwIcRM3bJ9WUXgZ8Qix5VlfS24Pv/view?usp=sharing' },
@@ -238,14 +238,14 @@ window.WORKFLOW = {
         type: 'WORKFLOW', status: 'ACTIVE',
         intro: 'BUILD',
         summary:
-          'Polls Gmail every 5 minutes, splits the path on attachment type. PDFs get summarised by Groq with a structured 3-bullet output. Plain emails get a one-line gist. Both pipes end in Telegram — newsletters and contracts read the same way.',
+          'Polls Gmail every 5 minutes, splits the path on attachment type. PDFs get summarised by Groq with a structured 3-bullet output. Plain emails get a one-line gist. Both pipes end in Telegram, so newsletters and contracts read the same way.',
         meta: {
           'POLLING':     'every 5 minutes',
           'BRANCHES':    'PDF path · plain-email path',
           'OUT':         'Telegram',
         },
         highlights: [
-          'Two-branch graph — same trigger, different processors',
+          'Two-branch graph: same trigger, different processors',
           'Newsletter triage is now ~30 seconds/day instead of 20 minutes',
         ],
         impact: 'My single most-used personal workflow. Runs since Feb 2025.',
@@ -259,14 +259,14 @@ window.WORKFLOW = {
         type: 'CATEGORY', status: 'IDLE',
         intro: 'TRACK',
         summary:
-          'Two data analysis projects — one benchmarking five years of Indian IPOs, one auditing a client\'s sales data into a single under-performing cell.',
+          'Two data analysis projects. One benchmarks five years of Indian IPOs; the other audits a client\'s sales data down to a single under-performing cell.',
         meta: {
           'COUNT':  '2 projects',
           'STACK':  'Excel · Python (pandas) · Power BI · DAX · Power Query',
         },
         highlights: [
-          'IPO Analysis 2021-25 — listing pop, drawdown, 12mo return',
-          'Sales Audit — exposed a 22% revenue gap in a Power BI dashboard',
+          'IPO Analysis 2021-25: listing pop, drawdown, 12mo return',
+          'Sales Audit: exposed a 22% revenue gap in a Power BI dashboard',
         ],
       } },
 
@@ -276,17 +276,17 @@ window.WORKFLOW = {
         type: 'DATASET', status: 'COMPLETE',
         intro: 'ANALYSIS',
         summary:
-          'Five years of Indian IPOs — every listing 2021 to 2025 — pulled, cleaned, dashboarded. Measured listing-day pop, max drawdown in the first year, and 12-month total return. The interesting finding wasn\'t the average — it was the dispersion: mid-cap IPOs swung 3× wider than large-caps.',
+          'Five years of Indian IPOs (every listing from 2021 to 2025) pulled, cleaned, dashboarded. Measured listing-day pop, max drawdown in the first year, and 12-month total return. The interesting finding wasn\'t the average. It was the dispersion: mid-cap IPOs swung 3× wider than large-caps.',
         meta: {
-          'PERIOD':  '2021 – 2025',
+          'PERIOD':  '2021 to 2025',
           'COUNT':   '~200 listings',
           'METRICS': 'listing pop · max drawdown · 12-mo return',
           'STACK':   'Excel · Python (pandas) · Power Query',
         },
         highlights: [
-          'Mid-cap IPOs returned 38% on avg vs 12% large-cap — but with 3× drawdown',
+          'Mid-cap IPOs returned 38% on avg vs 12% large-cap, but with 3× drawdown',
           'Listing-day pop is a weak predictor of 12-mo return (r ≈ 0.18)',
-          'Q4 listings consistently outperformed Q1 — visible in the dashboard',
+          'Q4 listings consistently outperformed Q1, visible in the dashboard',
         ],
         impact: 'Personal project that became my favourite interview talking point.',
         cta: { label: 'View on GitHub', url: 'https://github.com/CODEVK31/IPO-Performance-Analysis-2021-25' },
@@ -306,7 +306,7 @@ window.WORKFLOW = {
           'STACK':      'Power BI · DAX · Power Query',
         },
         highlights: [
-          'Started with 15 dimensions — pruned to the two that mattered',
+          'Started with 15 dimensions, pruned to the two that mattered',
           'DAX measures wrote themselves once the model was right',
           'Executive dashboard with one recommendation tile, not twelve charts',
         ],
@@ -327,8 +327,8 @@ window.WORKFLOW = {
           'STACK':  'Claude API · React · Chrome MV3 · IDM-VTON',
         },
         highlights: [
-          'FitMe — Chrome extension that virtually tries clothes on you',
-          'Sudhir Medical Agency — live storefront on Vercel',
+          'FitMe: Chrome extension that virtually tries clothes on you',
+          'Sudhir Medical Agency: live storefront on Vercel',
         ],
       } },
 
@@ -338,7 +338,7 @@ window.WORKFLOW = {
         type: 'PRODUCT', status: 'ACTIVE',
         intro: 'BUILD · AI PRODUCT',
         summary:
-          "A Chrome extension that overlays an AI virtual try-on of any outfit from Zara, Uniqlo, H&M, or Amazon Fashion — using your own face and body. Built on IDM-VTON via Replicate. Three features ship together: Outfit Builder, Saved Looks, and a size + skin-tone hint engine.",
+          "A Chrome extension that overlays an AI virtual try-on of any outfit from Zara, Uniqlo, H&M, or Amazon Fashion, using your own face and body. Built on IDM-VTON via Replicate. Three features ship together: Outfit Builder, Saved Looks, and a size + skin-tone hint engine.",
         meta: {
           'SITES':    'Zara · Uniqlo · H&M · Amazon Fashion',
           'MODEL':    'IDM-VTON via Replicate',
@@ -348,7 +348,7 @@ window.WORKFLOW = {
         highlights: [
           'Detects the product image on supported retailers automatically',
           'One-click try-on overlays the outfit on your photo in ~6 seconds',
-          'The Uniqlo navy linen "photo" on the demo page was never worn — FitMe made it',
+          'The Uniqlo navy linen "photo" on the demo page was never worn. FitMe made it',
         ],
         impact: 'Most-shared project. The "wait, that\'s not real?" moment is the whole pitch.',
         cta: { label: 'Watch demo', url: 'https://drive.google.com/file/d/1ps4DqON6vns-V-MYZsURbLyVpsKo2-dV/view?usp=sharing' },
@@ -369,7 +369,7 @@ window.WORKFLOW = {
         },
         highlights: [
           'Product catalog driven by a single editable JSON the owner can update',
-          'WhatsApp-first checkout — matches how customers actually order',
+          'WhatsApp-first checkout, matches how customers actually order',
         ],
         cta: { label: 'Open live site', url: 'https://sudhir-medical-agency.vercel.app' },
       } },
@@ -381,7 +381,7 @@ window.WORKFLOW = {
         type: 'TERMINAL', status: 'READY',
         intro: 'END OF WORKFLOW',
         summary:
-          'If anything here resonated, the fastest way to reach me is email — I read every one and reply within a day. LinkedIn for the formal route. GitHub for the code behind these workflows.',
+          'If anything here resonated, the fastest way to reach me is email. I read every one and reply within a day. LinkedIn for the formal route. GitHub for the code behind these workflows.',
         meta: {
           'EMAIL':         'vk408@snu.edu.in',
           'LINKEDIN':      'in/vinayak-khandelwal-840964200',
