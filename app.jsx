@@ -69,8 +69,13 @@ function DesktopApp() {
     // Fast mode or repeat-visit fast path — skip the 1.95s scan/edges/pulse choreography.
     if ((IS_FAST_MODE || SHOULD_SKIP_BOOT) && !opts.force) {
       setBootPhase('done');
+      const push = (fn, ms) => timerRef.current.push(setTimeout(fn, ms));
       const hashNode = readNodeFromHash();
-      if (hashNode) setActiveNodeId(hashNode);
+      if (hashNode) {
+        setActiveNodeId(hashNode);
+      } else if (t.autoOpenHello && !opts.skipAutoOpen) {
+        push(() => setActiveNodeId('branch'), 600);
+      }
       return;
     }
 
@@ -89,7 +94,7 @@ function DesktopApp() {
       if (hashNode) {
         setActiveNodeId(hashNode);
       } else if (t.autoOpenHello && !opts.skipAutoOpen) {
-        push(() => setActiveNodeId('branch'), 1500);
+        push(() => setActiveNodeId('branch'), 3650);
       }
     }, 1950);
   }, [t.autoOpenHello]);

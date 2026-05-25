@@ -108,10 +108,10 @@ window.WORKFLOW = {
         type: 'OBJECT', status: 'IDLE',
         intro: 'WORK',
         summary:
-          'Two roles. The intern role was where I learned data work actually changes outcomes. A Power BI dashboard I built moved a director\'s sales focus from "everything" to one narrow filter pair, and the next month\'s revenue moved.',
+          "A 7-month internship inside the admissions team at Shiv Nadar University, plus an ongoing self-directed builder track. The intern role taught me how to make data actually move a decision — classify the records, find the pattern, then sit across the table from the person it changes.",
         timeline: [
-          { period: 'Summer 2025', role: 'Data Analyst Intern', org: 'Credflow',
-            note: 'Built the document-tracking agent currently running in production. Surfaced a 22% revenue gap in a Power BI sales audit that became a quarterly review item.' },
+          { period: 'Jan 2025 – Aug 2025', role: 'Data & Admissions Operations Analyst — Intern', org: 'Shiv Nadar University',
+            note: 'Classified and analyzed 2,000+ student inquiry records, surfacing 12 recurring funnel friction points that informed process redesign. Ran 20+ insight-led counseling sessions grounded in historical outcome data, improving first-contact resolution.' },
           { period: '2024 to now', role: 'Builder · Independent', org: 'Self-directed',
             note: 'Eight shipped workflows for personal use and pilots. One live client storefront. One AI-powered Chrome extension.' },
         ],
@@ -123,12 +123,16 @@ window.WORKFLOW = {
         type: 'ARRAY', status: 'IDLE',
         intro: 'POR',
         summary:
-          'Four roles, one rule: ship the thing without drama. The robotics one is the proudest. World Rank #4 in the ASME EFest XR Challenge with an autonomous vehicle that ran the course in under 15 seconds.',
+          'Four roles, one rule: ship the thing without drama. The robotics one is the proudest — World Rank #4 in the ASME EFest XR Challenge with an autonomous vehicle that ran the course in under 15 seconds.',
         timeline: [
-          { period: '2024', role: 'ASME EFest XR Challenge', org: 'Robotics', note: 'World Rank #4 · autonomous vehicle · sub-15s lap' },
-          { period: '2023 to 2024', role: 'Tech Lead', org: 'SNU Robotics' },
-          { period: '2023', role: 'Editor', org: 'The Express · student paper' },
-          { period: '2022 to 2023', role: 'Class Representative', org: 'B.Tech batch' },
+          { period: 'Apr 2025 – Present', role: 'Secretary', org: 'ASME · Shiv Nadar University Chapter',
+            note: 'Designed the full semester roadmap and coordinated technical and non-technical events for the chapter.' },
+          { period: 'Sep 2024 – Mar 2025', role: 'Team Captain — ASME EFest XR Challenge', org: 'World Rank #4',
+            note: 'Led a 7-member interdisciplinary team to design an autonomous vehicle completing the course in under 15 seconds.' },
+          { period: 'Apr 2024 – Apr 2025', role: 'Freshman Coordinator', org: 'ASME · Shiv Nadar University Chapter',
+            note: 'Structured and led recruitment interviews for 50+ engineering students across disciplines.' },
+          { period: '2024', role: 'Founder Member', org: 'ASHRAE · Shiv Nadar University Chapter',
+            note: 'Founding member of the SNU student chapter.' },
         ],
       } },
 
@@ -217,7 +221,7 @@ window.WORKFLOW = {
         type: 'WORKFLOW', status: 'ACTIVE',
         intro: 'BUILD · PRODUCTION',
         summary:
-          'My internship project at Credflow, still running. Generates a per-loan-type document checklist, sends daily reminders to the borrower, escalates to the relationship manager after 2+ days of silence, and pushes a daily Telegram summary to the team. Three parallel paths in one graph.',
+          'A production workflow I built for Credflow, still running. Generates a per-loan-type document checklist, sends daily reminders to the borrower, escalates to the relationship manager after 2+ days of silence, and pushes a daily Telegram summary to the team. Three parallel paths in one graph.',
         meta: {
           'PATHS':       '3 parallel',
           'ESCALATION':  '2 days',

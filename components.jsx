@@ -328,8 +328,6 @@ function HeadlineCard() {
       <p className="headline__proof">
         <span className="headline__proof-dot" style={{ '--c': '#FF6D5A' }} />8 shipped
         <span className="headline__proof-sep">·</span>
-        <span className="headline__proof-dot" style={{ '--c': '#00C896' }} />1 live in production
-        <span className="headline__proof-sep">·</span>
         <span className="headline__proof-dot" style={{ '--c': '#F5B544' }} />World Rank #4 ASME
       </p>
     </aside>
@@ -662,7 +660,7 @@ function Toolbar({ onExecute, onBoot, onOpenSearch, onOpenPlain, isExecuting }) 
           </div>
           <div className="toolbar__status">
             <span className="pulse-dot" />
-            <span className="toolbar__active">open to work · 1 live in production</span>
+            <span className="toolbar__active">open to work</span>
           </div>
         </div>
       </div>
@@ -853,8 +851,7 @@ function NodePanel({ node, onClose, onNavigate }) {
   let children = [];
   if (isHub) {
     if (node.id === 'branch') {
-      const downstream = ['about', 'skills', 'experience', 'pors',
-                          'projects', 'n8n_cat', 'data_cat', 'claude_cat'];
+      const downstream = ['about', 'projects'];
       children = downstream.map(id => WORKFLOW.nodes.find(n => n.id === id)).filter(Boolean);
     } else {
       children = WORKFLOW.edges
@@ -975,13 +972,23 @@ function NodePanel({ node, onClose, onNavigate }) {
             {(p.cta || p.secondary) && (
               <div className="modal__head-cta">
                 {p.cta && (
-                  <a href={p.cta.url ?? '#'} className="pill pill--coral">
+                  <a
+                    href={p.cta.url ?? '#'}
+                    className="pill pill--coral"
+                    target={p.cta.url?.startsWith('mailto:') ? undefined : '_blank'}
+                    rel="noopener noreferrer"
+                  >
                     <Icon name="play" size={12} />
                     <span>{p.cta.label}</span>
                   </a>
                 )}
                 {p.secondary && (
-                  <a href={p.secondary.url ?? '#'} className="pill pill--ghost">
+                  <a
+                    href={p.secondary.url ?? '#'}
+                    className="pill pill--ghost"
+                    target={p.secondary.url?.startsWith('mailto:') ? undefined : '_blank'}
+                    rel="noopener noreferrer"
+                  >
                     <Icon name="external" size={13} />
                     <span>{p.secondary.label}</span>
                   </a>

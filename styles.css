@@ -1154,9 +1154,14 @@ a { color: inherit; text-decoration: none; }
 }
 .modal__child-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 10px;
   margin-top: 12px;
+}
+/* When the branch fork modal only has 2 main paths, force a clean 2-up layout
+   so "About me" and "Projects" always sit side-by-side, never stacked. */
+.modal[data-id="branch"] .modal__child-grid {
+  grid-template-columns: repeat(2, 1fr);
 }
 .modal__child-card {
   display: flex; align-items: center; gap: 11px;
@@ -2668,5 +2673,9 @@ body.is-mobile, body.is-mobile #root, body.is-mobile .app { height: auto; positi
   pointer-events: none;
   max-width: 90vw;
   text-align: center;
+  animation: canvas-concept-fade 1.2s ease-out 5s forwards;
+}
+@keyframes canvas-concept-fade {
+  to { opacity: 0; transform: translateX(-50%) rotate(-1.6deg) translateY(8px); visibility: hidden; }
 }
 @media (max-width: 900px) { .canvas__concept { display: none; } }
