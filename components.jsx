@@ -337,7 +337,7 @@ window.HeadlineCard = HeadlineCard;
 
 /* ── Plain-English overlay — for non-technical viewers (recruiters, family,
    anyone who doesn't know what "n8n" means). Single screen, no jargon. ──── */
-function PlainEnglish({ onClose }) {
+function PlainEnglish({ onClose, onJump }) {
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
@@ -359,7 +359,9 @@ function PlainEnglish({ onClose }) {
         </p>
         <div className="plain__three">
           <div className="plain__row">
-            <span className="plain__row-tag">1</span>
+            <button type="button" className="plain__row-tag" onClick={() => onJump('p-pitch-deck')} aria-label="Open Pitch Deck Intake" title="Open this build">
+              <Icon name="chev-r" size={14} />
+            </button>
             <div>
               <strong>Pitch Deck Intake.</strong> Reads investor PDFs that
               arrive in a founder's inbox and pulls the key information into a
@@ -367,7 +369,9 @@ function PlainEnglish({ onClose }) {
             </div>
           </div>
           <div className="plain__row">
-            <span className="plain__row-tag">2</span>
+            <button type="button" className="plain__row-tag" onClick={() => onJump('p-gmail-sum')} aria-label="Open Self-Healing Email Agent" title="Open this build">
+              <Icon name="chev-r" size={14} />
+            </button>
             <div>
               <strong>Self-Healing Email Agent.</strong> Reads my inbox,
               summarises emails and PDF attachments straight to Telegram, and
@@ -375,7 +379,9 @@ function PlainEnglish({ onClose }) {
             </div>
           </div>
           <div className="plain__row">
-            <span className="plain__row-tag">3</span>
+            <button type="button" className="plain__row-tag" onClick={() => onJump('p-fitme')} aria-label="Open FitMe" title="Open this build">
+              <Icon name="chev-r" size={14} />
+            </button>
             <div>
               <strong>FitMe.</strong> A Chrome extension that lets you try on
               clothes from Zara or Amazon using AI. Built solo.

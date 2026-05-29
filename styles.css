@@ -1439,14 +1439,24 @@ a { color: inherit; text-decoration: none; }
 .plain__row-tag {
   flex-shrink: 0;
   display: grid; place-items: center;
-  width: 22px; height: 22px;
+  width: 24px; height: 24px;
+  border: none;
+  padding: 0;
   border-radius: 50%;
   background: var(--coral);
   color: var(--bg);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
   margin-top: 1px;
+  cursor: pointer;
+  transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
+}
+.plain__row-tag:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--coral) 30%, transparent),
+              0 4px 14px rgba(255,109,90,0.45);
+}
+.plain__row-tag:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
 }
 .plain__cta-row {
   display: flex; flex-wrap: wrap; gap: 10px;

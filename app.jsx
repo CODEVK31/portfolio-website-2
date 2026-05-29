@@ -211,7 +211,7 @@ function DesktopApp() {
             onJumpToNode={(id) => { setSourceOpen(false); setActiveNodeId(id); }}
           />
         )}
-        {plainOpen && <PlainEnglish onClose={() => setPlainOpen(false)} />}
+        {plainOpen && <PlainEnglish onClose={() => setPlainOpen(false)} onJump={(id) => { setPlainOpen(false); setActiveNodeId(id); }} />}
       </main>
 
       <StatusBar activeNodeLabel={activeNode?.label} />
