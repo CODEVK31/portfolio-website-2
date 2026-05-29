@@ -369,9 +369,9 @@ function PlainEnglish({ onClose }) {
           <div className="plain__row">
             <span className="plain__row-tag">2</span>
             <div>
-              <strong>Credflow Document Agent.</strong> Chases borrowers for
-              missing loan documents and pings the relationship team if things
-              stall. Currently <em>running in production at a fintech</em>.
+              <strong>Self-Healing Email Agent.</strong> Reads my inbox,
+              summarises emails and PDF attachments straight to Telegram, and
+              <em> fixes itself if any step fails</em>. Runs fully unattended.
             </div>
           </div>
           <div className="plain__row">
@@ -387,7 +387,7 @@ function PlainEnglish({ onClose }) {
           and a live e-commerce site I built for the family pharmacy in two weekends.
         </p>
         <div className="plain__cta-row">
-          <a className="pill pill--coral" href="mailto:vk408@snu.edu.in">
+          <a className="pill pill--coral" href="https://mail.google.com/mail/?view=cm&fs=1&to=vk408@snu.edu.in" target="_blank" rel="noopener noreferrer">
             <Icon name="mail" size={12} />
             <span>Email me</span>
           </a>
@@ -616,7 +616,7 @@ function Canvas({ activeNodeId, executingNodeId, onNodeClick, bootPhase, bootKey
 
           {/* Sticky notes (kept in world; the always-visible note is mounted outside the world transform) */}
           <StickyNote x={-220} y={ 110} rotate={ 2} color="coral">
-            <a href="mailto:vk408@snu.edu.in" style={{ color: 'inherit', textDecoration: 'underline', pointerEvents: 'auto' }}>vk408@snu.edu.in</a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=vk408@snu.edu.in" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline', pointerEvents: 'auto' }}>vk408@snu.edu.in</a>
           </StickyNote>
           <StickyNote x={-220} y={280} rotate={-1} color="mint">Delhi NCR · open to internships + freelance</StickyNote>
           <StickyNote x={1380} y={820} rotate={-2} color="violet">the FitMe try-on photo was never worn. AI made it</StickyNote>
@@ -655,7 +655,7 @@ function Toolbar({ onExecute, onBoot, onOpenSearch, onOpenPlain, isExecuting }) 
         </div>
         <div className="toolbar__meta">
           <div className="toolbar__filename">
-            vinayak.portfolio
+            VINAYAK.PORTFOLIO
             <span className="toolbar__version">PORTFOLIO</span>
           </div>
           <div className="toolbar__status">
@@ -692,7 +692,7 @@ function Toolbar({ onExecute, onBoot, onOpenSearch, onOpenPlain, isExecuting }) 
 
         <span className="toolbar__sep toolbar__sep--sm" aria-hidden />
 
-        <a href="mailto:vk408@snu.edu.in" className="btn btn--ghost btn--mail-ghost" title="Email Vinayak">
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=vk408@snu.edu.in" target="_blank" rel="noopener noreferrer" className="btn btn--ghost btn--mail-ghost" title="Email Vinayak (opens Gmail)">
           <Icon name="mail" size={12} />
           <span>Email</span>
         </a>
@@ -717,7 +717,6 @@ function StatusBar({ activeNodeLabel }) {
         {activeNodeLabel && <span className="statusbar__item statusbar__item--accent">▸ {activeNodeLabel}</span>}
       </div>
       <div className="statusbar__group">
-        <span>v0.3 · 17 nodes</span>
         <a href="https://www.linkedin.com/in/vinayak-khandelwal-840964200" target="_blank" rel="noopener noreferrer">linkedin</a>
         <a href="https://github.com/CODEVK31" target="_blank" rel="noopener noreferrer">github</a>
       </div>
@@ -832,7 +831,7 @@ function Minimap({ activeNodeId }) {
 window.Minimap = Minimap;
 
 /* ── Node Modal — centered, n8n-step-inspired layout ───────────────────── */
-function NodePanel({ node, onClose, onNavigate }) {
+function NodePanel({ node, onClose, onNavigate, onOpenPlain }) {
   const modalRef = useRef(null);
   const lastFocus = useRef(null);
   if (!node) return null;
@@ -955,9 +954,6 @@ function NodePanel({ node, onClose, onNavigate }) {
             </div>
             <div className="modal__head-text">
               <div className="modal__chips">
-                <span className="modal__type-chip" style={{ color: accent, borderColor: accent }}>
-                  {p.type}
-                </span>
                 <span className="modal__status-chip" style={{ color: statusColor }}>
                   <span className="pulse-dot" style={{ background: statusColor, color: statusColor }} />
                   {p.status}
@@ -969,8 +965,27 @@ function NodePanel({ node, onClose, onNavigate }) {
             </div>
 
             {/* Header CTAs — use the free space on the right */}
-            {(p.cta || p.secondary) && (
+            {(p.cta || p.secondary || node.id === 'branch' || node.id === 'about') && (
               <div className="modal__head-cta">
+                {node.id === 'branch' && (
+                  <>
+                    <button type="button" className="pill pill--coral" onClick={onOpenPlain}>
+                      <Icon name="play" size={12} />
+                      <span>30-sec read</span>
+                    </button>
+                    <a className="pill pill--ghost" href="uploads/Vinayak_Khandelwal_A_Resume.pdf" target="_blank" rel="noopener noreferrer">
+                      <Icon name="resume" size={13} />
+                      <span>Resume</span>
+                    </a>
+                  </>
+                )}
+                {node.id === 'about' && (
+                  <button type="button" className="pill pill--coral" onClick={() => onNavigate('projects')}>
+                    <Icon name="folder" size={13} />
+                    <span>See projects</span>
+                    <Icon name="chev-r" size={12} />
+                  </button>
+                )}
                 {p.cta && (
                   <a
                     href={p.cta.url ?? '#'}
@@ -1035,6 +1050,10 @@ function NodePanel({ node, onClose, onNavigate }) {
                 })}
               </div>
             </section>
+          )}
+
+          {node.id === 'branch' && (
+            <p className="modal__kbd-tip">Pro tip — press <kbd>⌘K</kbd> (or <kbd>/</kbd>) to jump anywhere.</p>
           )}
 
           <div className="modal__cols">
@@ -1502,7 +1521,7 @@ function MobileLayout() {
         <div className="mobile__role">Final-year B.Tech · I ship AI workflows</div>
         <p className="mobile__lede">{branch?.panel?.summary}</p>
         <div className="mobile__cta-row">
-          <a className="mobile__cta mobile__cta--coral" href="mailto:vk408@snu.edu.in">
+          <a className="mobile__cta mobile__cta--coral" href="https://mail.google.com/mail/?view=cm&fs=1&to=vk408@snu.edu.in" target="_blank" rel="noopener noreferrer">
             <Icon name="mail" size={12} /> Email me
           </a>
           <a className="mobile__cta mobile__cta--ghost" href="uploads/Vinayak_Khandelwal_A_Resume.pdf" target="_blank" rel="noopener noreferrer">
@@ -1619,7 +1638,7 @@ function MobileLayout() {
             ))}
           </div>
           <div style={{ marginTop: 18 }}>
-            <a className="mobile__cta mobile__cta--coral" href="mailto:vk408@snu.edu.in">
+            <a className="mobile__cta mobile__cta--coral" href="https://mail.google.com/mail/?view=cm&fs=1&to=vk408@snu.edu.in" target="_blank" rel="noopener noreferrer">
               <Icon name="mail" size={12} /> Email me
             </a>
           </div>
@@ -1637,7 +1656,7 @@ function MobileLayout() {
 
       {/* Sticky bottom CTA bar */}
       <div className="mobile-stick">
-        <a className="pill pill--coral" href="mailto:vk408@snu.edu.in">
+        <a className="pill pill--coral" href="https://mail.google.com/mail/?view=cm&fs=1&to=vk408@snu.edu.in" target="_blank" rel="noopener noreferrer">
           <Icon name="mail" size={12} /> Email Vinayak
         </a>
         <a className="pill pill--ghost" href="uploads/Vinayak_Khandelwal_A_Resume.pdf" target="_blank" rel="noopener noreferrer">

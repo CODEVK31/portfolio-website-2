@@ -1,13 +1,15 @@
 import * as esbuild from 'esbuild';
-import { mkdirSync, copyFileSync, cpSync, existsSync, readdirSync, statSync, writeFileSync, readFileSync } from 'node:fs';
+import { mkdirSync, copyFileSync, cpSync, existsSync, readdirSync, statSync, writeFileSync, readFileSync, renameSync, rmSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(here, 'dist');
 const isWatch = process.argv.includes('--watch');
 
-// Clean dist
+// Clean dist so stale (or old-hash) bundles never linger in the output.
+rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 
 const ctx = await esbuild.context({
@@ -29,9 +31,6 @@ const ctx = await esbuild.context({
 
 await ctx.rebuild();
 
-// Copy static files
-copyFileSync(resolve(here, 'styles.css'), join(outDir, 'styles.css'));
-
 // Copy uploads directory
 const uploadsSrc = resolve(here, 'uploads');
 if (existsSync(uploadsSrc)) {
@@ -48,10 +47,30 @@ if (existsSync(resumeSrc)) {
 const ogSrc = resolve(here, 'og.png');
 if (existsSync(ogSrc)) copyFileSync(ogSrc, join(outDir, 'og.png'));
 
-// Copy index.html — source already references the bundled app.js directly
-copyFileSync(resolve(here, 'index.html'), join(outDir, 'index.html'));
+// ── Asset fingerprinting ──────────────────────────────────────────────────
+// Production builds get content-hashed filenames (app-<hash>.js,
+// styles-<hash>.css) so every deploy is a brand-new URL no browser has cached.
+// Watch/dev builds keep fixed names so the dev HTML reference stays valid
+// across rebuilds. Either way we read the SOURCE index.html and write the
+// rewritten copy into dist/ — the source files are never modified.
+const hash8 = (buf) => createHash('sha256').update(buf).digest('hex').slice(0, 8);
 
-console.log('Built to', outDir);
+const cssBuf  = readFileSync(resolve(here, 'styles.css'));
+const cssName = isWatch ? 'styles.css' : `styles-${hash8(cssBuf)}.css`;
+writeFileSync(join(outDir, cssName), cssBuf);
+
+let jsName = 'app.js';
+if (!isWatch) {
+  jsName = `app-${hash8(readFileSync(join(outDir, 'app.js')))}.js`;
+  renameSync(join(outDir, 'app.js'), join(outDir, jsName));
+}
+
+const html = readFileSync(resolve(here, 'index.html'), 'utf8')
+  .replace('href="styles.css"', `href="${cssName}"`)
+  .replace('src="app.js"',      `src="${jsName}"`);
+writeFileSync(join(outDir, 'index.html'), html);
+
+console.log(`Built to ${outDir}  (${jsName}, ${cssName})`);
 
 if (isWatch) {
   await ctx.watch();

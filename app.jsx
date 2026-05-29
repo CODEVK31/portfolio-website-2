@@ -204,7 +204,7 @@ function DesktopApp() {
         >
           {'</>'} View source
         </button>
-        {activeNode && <NodePanel node={activeNode} onClose={() => { clearTimers(); setExecutingNodeId(null); setActiveNodeId(null); }} onNavigate={handleNavigate} />}
+        {activeNode && <NodePanel node={activeNode} onClose={() => { clearTimers(); setExecutingNodeId(null); setActiveNodeId(null); }} onNavigate={handleNavigate} onOpenPlain={() => setPlainOpen(true)} />}
         {sourceOpen && (
           <JsonViewer
             onClose={() => setSourceOpen(false)}

@@ -46,13 +46,12 @@ window.WORKFLOW = {
 
   nodes: [
     /* ───────── Entry · merged hello + branch ───────── */
-    { id: 'branch', label: "Hello, I'm Vinayak", sublabel: 'TRIGGER · WHAT DO YOU WANT TO SEE?',
+    { id: 'branch', label: "Hello, I'm Vinayak", sublabel: 'Hi! Choose where to go 👇',
       kind: 'trigger', icon: 'sparkles', x: COL(0), y: 0,
       panel: {
         type: 'OBJECT', status: 'ACTIVE',
-        intro: 'PORTFOLIO · ENTRY',
         summary:
-          "Final-year B.Tech at Shiv Nadar University (Economics minor). I build AI automations, design workflows in n8n, and analyse data for messy real-world problems. Two paths from here: the top branch walks through who I am; the bottom branch shows the machines I built. Pick one, or hit ⌘K to jump anywhere.",
+          "Final-year B.Tech at Shiv Nadar University with a minor in Economics. I build AI automations using n8n and Claude, and analyse data for real-world problems. 8 projects shipped, 1 live in production at a fintech.",
         meta: {
           'NAME':     'Vinayak Khandelwal',
           'ROLE':     'Builder · Analyst · Workflow Designer',
@@ -69,7 +68,7 @@ window.WORKFLOW = {
       } },
 
     /* ───────── Top branch ───────── */
-    { id: 'about', label: 'About me', sublabel: 'SET · OBJECT',
+    { id: 'about', label: 'About me', sublabel: 'Background · Skills · Experience',
       kind: 'about', icon: 'user', x: COL(2), y: TOP_Y,
       panel: {
         type: 'OBJECT', status: 'IDLE',
@@ -88,7 +87,7 @@ window.WORKFLOW = {
         ],
       } },
 
-    { id: 'skills', label: 'Skills', sublabel: 'LOOP · TOOLKIT',
+    { id: 'skills', label: 'Skills', sublabel: 'Tools I work with',
       kind: 'loop', icon: 'loop', x: COL(3), y: TOP_Y,
       panel: {
         type: 'ARRAY', status: 'IDLE',
@@ -102,7 +101,7 @@ window.WORKFLOW = {
         ],
       } },
 
-    { id: 'experience', label: 'Experience', sublabel: 'MERGE · 2 ROLES',
+    { id: 'experience', label: 'Experience', sublabel: '2 roles',
       kind: 'action', icon: 'briefcase', x: COL(4), y: TOP_Y,
       panel: {
         type: 'OBJECT', status: 'IDLE',
@@ -117,11 +116,11 @@ window.WORKFLOW = {
         ],
       } },
 
-    { id: 'pors', label: 'Leadership', sublabel: 'LOOP · 4 ROLES',
+    { id: 'pors', label: 'Leadership', sublabel: '4 leadership roles',
       kind: 'loop', icon: 'medal', x: COL(5), y: TOP_Y,
       panel: {
         type: 'ARRAY', status: 'IDLE',
-        intro: 'POR',
+        intro: 'Leadership',
         summary:
           'Four roles, one rule: ship the thing without drama. The robotics one is the proudest — World Rank #4 in the ASME EFest XR Challenge with an autonomous vehicle that ran the course in under 15 seconds.',
         timeline: [
@@ -137,7 +136,7 @@ window.WORKFLOW = {
       } },
 
     /* ───────── Projects entry ───────── */
-    { id: 'projects', label: 'Projects', sublabel: 'LOOP · 8 BUILDS',
+    { id: 'projects', label: 'Projects', sublabel: '8 Projects · 1 Live in Production',
       kind: 'loop', icon: 'folder', x: COL(2), y: PROJECTS_Y,
       panel: {
         type: 'ARRAY', status: 'IDLE',
@@ -152,7 +151,7 @@ window.WORKFLOW = {
       } },
 
     /* ───────── Category — n8n ───────── */
-    { id: 'n8n_cat', label: 'n8n Workflows', sublabel: 'CATEGORY · 4 BUILDS',
+    { id: 'n8n_cat', label: 'n8n Workflows', sublabel: '4 automations',
       kind: 'category-coral', icon: 'n8n', x: COL(3), y: N8N_CAT_Y,
       panel: {
         type: 'CATEGORY', status: 'ACTIVE',
@@ -168,7 +167,7 @@ window.WORKFLOW = {
           'Pitch Deck Intake: Claude extracts 20+ data points per deck',
           'Startup Outreach: daily founder discovery + cold email',
           'Credflow Document Agent: three-path production workflow',
-          'Gmail PDF Summarizer: Telegram-piped daily digest',
+          'Self-Healing Email Agent: summaries to Telegram, auto-recovers on errors',
         ],
       } },
 
@@ -236,28 +235,30 @@ window.WORKFLOW = {
         cta: { label: 'Watch demo', url: 'https://drive.google.com/file/d/126ibzwIcRM3bJ9WUXgZ8Qix5VlfS24Pv/view?usp=sharing' },
       } },
 
-    { id: 'p-gmail-sum', label: 'Gmail Summarizer', sublabel: "RUNS DAILY SINCE FEB '25",
+    { id: 'p-gmail-sum', label: 'Self-Healing Email Agent', sublabel: 'Fully autonomous · self-heals',
       kind: 'ai', icon: 'telegram', x: COL(4), y: N8N_3,
       panel: {
         type: 'WORKFLOW', status: 'ACTIVE',
-        intro: 'BUILD',
+        intro: 'Automation',
         summary:
-          'Polls Gmail every 5 minutes, splits the path on attachment type. PDFs get summarised by Groq with a structured 3-bullet output. Plain emails get a one-line gist. Both pipes end in Telegram, so newsletters and contracts read the same way.',
+          'A fully autonomous email assistant that runs unattended. It reads the inbox, summarises every email, and for PDF attachments writes a structured summary — then delivers all of it to Telegram. If any step errors out, the workflow detects the failure and heals itself: it retries, reroutes, and recovers without me touching it.',
         meta: {
-          'POLLING':     'every 5 minutes',
-          'BRANCHES':    'PDF path · plain-email path',
-          'OUT':         'Telegram',
+          'RUNS':     'unattended · 24/7',
+          'HANDLES':  'email body + PDF attachments',
+          'OUT':      'Telegram',
+          'RECOVERY': 'self-healing on errors',
         },
         highlights: [
-          'Two-branch graph: same trigger, different processors',
-          'Newsletter triage is now ~30 seconds/day instead of 20 minutes',
+          'Summarises both plain emails and PDF attachments, piped to Telegram',
+          'Self-heals: detects a failed step, then retries and reroutes on its own',
+          'Runs fully unattended — no babysitting, no manual restarts',
         ],
-        impact: 'My single most-used personal workflow. Runs since Feb 2025.',
-        cta: { label: 'Watch demo', url: 'https://drive.google.com/file/d/1Z1PoIJ72X2cB0MywuYXc-OlApyLeifcr/view?usp=sharing' },
+        impact: 'My most hands-off workflow. It catches its own errors and keeps running.',
+        cta: { label: 'Watch demo', url: 'https://drive.google.com/file/d/1c4NoYS4e_Nb61SBz9g0ZwTxEvVL6eubm/view?usp=sharing' },
       } },
 
     /* ───────── Category — data ───────── */
-    { id: 'data_cat', label: 'Data Analyst', sublabel: 'CATEGORY · 2 PROJECTS',
+    { id: 'data_cat', label: 'Data Analyst', sublabel: '2 data projects',
       kind: 'category-amber', icon: 'chart', x: COL(3), y: DATA_CAT_Y,
       panel: {
         type: 'CATEGORY', status: 'IDLE',
@@ -319,7 +320,7 @@ window.WORKFLOW = {
       } },
 
     /* ───────── Category — Claude Code ───────── */
-    { id: 'claude_cat', label: 'Claude Code', sublabel: 'CATEGORY · 2 BUILDS',
+    { id: 'claude_cat', label: 'Claude Code', sublabel: '2 builds',
       kind: 'category-violet', icon: 'claude', x: COL(3), y: CLAUDE_CAT_Y,
       panel: {
         type: 'CATEGORY', status: 'IDLE',
@@ -379,11 +380,11 @@ window.WORKFLOW = {
       } },
 
     /* ───────── Terminal ───────── */
-    { id: 'contact', label: 'Get in touch', sublabel: 'TERMINAL',
+    { id: 'contact', label: 'Get in touch', sublabel: 'Email · LinkedIn · GitHub',
       kind: 'terminal', icon: 'mail', x: CONTACT_X, y: CONTACT_Y,
       panel: {
         type: 'TERMINAL', status: 'READY',
-        intro: 'END OF WORKFLOW',
+        intro: 'Contact',
         summary:
           'If anything here resonated, the fastest way to reach me is email. I read every one and reply within a day. LinkedIn for the formal route. GitHub for the code behind these workflows.',
         meta: {
@@ -393,7 +394,7 @@ window.WORKFLOW = {
           'PHONE':         '+91 82794 09254',
           'RESPONSE TIME': 'within 24 hours',
         },
-        cta: { label: 'Email me', url: 'mailto:vk408@snu.edu.in' },
+        cta: { label: 'Email me', url: 'https://mail.google.com/mail/?view=cm&fs=1&to=vk408@snu.edu.in' },
         secondary: { label: 'LinkedIn', url: 'https://www.linkedin.com/in/vinayak-khandelwal-840964200' },
       } },
   ],
